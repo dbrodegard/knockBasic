@@ -7,8 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface ViewController : UIViewController
+#import <Parse/Parse.h>
+
+@interface ViewController : UIViewController <UIWebViewDelegate,CLLocationManagerDelegate,UIScrollViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UIWebView *mainWeb;
+@property (weak, nonatomic) IBOutlet UIView *progressView;
+
+@property (strong, nonatomic) CLBeaconRegion *beaconRegion;
+@property (strong, nonatomic) CLLocationManager *locationManager;
+
 
 
 @end
