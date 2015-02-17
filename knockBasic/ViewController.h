@@ -18,7 +18,12 @@
 
 @property (strong, nonatomic) CLBeaconRegion *beaconRegion;
 @property (strong, nonatomic) CLLocationManager *locationManager;
+@property (weak, nonatomic) IBOutlet UILabel *beaconDisplayTitle;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+- (IBAction)backButtonAction:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIButton *rightOptionButton;
+- (IBAction)rightOptionAction:(id)sender;
 
 
 @end

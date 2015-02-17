@@ -63,7 +63,7 @@ NSMutableArray *theBeaconsAround;
     
     
     
-    self.mainWeb.scrollView.contentInset = UIEdgeInsetsMake(21, 0, 0, 0);
+    self.mainWeb.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     
     [self.mainWeb.scrollView setDelegate:self];
     NSString *urlString = @"http://cnn.com";
@@ -184,7 +184,7 @@ NSMutableArray *theBeaconsAround;
             
             [self getData:currentBeacon];
             
-            [self makeArray:beacons];
+            //[self makeArray:beacons];
         }
     }
     
@@ -272,11 +272,15 @@ NSMutableArray *theBeaconsAround;
     [query getFirstObjectInBackgroundWithBlock:^(PFObject * beacon, NSError *error) {
         if (!error) {
             
-           // NSLog(@"it did retrieve a beacon");
+        NSLog(@"it did retrieve a beacon");
             
             NSString *command = [beacon objectForKey:@"command"];
             
-            NSLog(command);
+            NSString *displayName = [beacon objectForKey:@"displayName"];
+            
+            self.beaconDisplayTitle.text = displayName;
+            
+           
             
             [self goTo:command];
             
@@ -297,6 +301,12 @@ NSMutableArray *theBeaconsAround;
 -(void)goTo:(NSString*)theSite{
     
     
+    NSURL *url = [NSURL URLWithString:theSite];
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
+    [self.mainWeb loadRequest:requestObj];
+    
+    
+    /*
     
     //2
     NSURL *url = [NSURL URLWithString:theSite];
@@ -313,7 +323,7 @@ NSMutableArray *theBeaconsAround;
          if ([data length] > 0 && error == nil) [self.mainWeb loadRequest:request];
          else if (error != nil) NSLog(@"Error: %@", error);
      }];
-
+*/
     
 }
 
@@ -327,72 +337,13 @@ NSMutableArray *theBeaconsAround;
     // Dispose of any resources that can be recreated.
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    //[self showProgress:scrollView.contentOffset.y/120*-1];
-    
-    
-  
-    
-    
-    if (scrollView.contentOffset.y<-120) {
-        
-        
-    }
-    else{
 
-        
-    }
-    
+
+
+
+
+- (IBAction)backButtonAction:(id)sender {
 }
-
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    
-    NSLog(@"%f", scrollView.contentOffset.y);
-    
-    if (scrollView.contentOffset.y<-120) {
-        NSLog(@"you are releasing above 100");
-        
-        
-        
-    }
-    
-   
-    
+- (IBAction)rightOptionAction:(id)sender {
 }
-
--(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    
-    
-    
-    
-    if (scrollView.contentOffset.y<-120) {
-        NSLog(@"you are releasing above 50");
-        
-       // [self showArray];
-    }
-    
-    
-}
-
--(void)showArray{
-    
-    
-    NSLog(@"the beacons around contains: %lu", (unsigned long)theBeaconsAround.count);
-    
-    self.mainWeb.scrollView.contentInset = UIEdgeInsetsMake(100, 0, 0, 0);
-    
-    UIView *theArray = [[UIView alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 80)];
-    
-    theArray.backgroundColor = [UIColor greenColor];
-    
-    [self.view addSubview:theArray];
-}
-
--(void)showProgress:(float)theProgress{
-    
-    NSLog(@"the progress is %f",theProgress);
-    
-}
-
 @end

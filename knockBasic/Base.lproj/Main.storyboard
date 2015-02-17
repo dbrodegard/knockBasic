@@ -23,16 +23,60 @@
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
                             </webView>
                             <view alpha="0.69999999999999996" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bBT-oA-8kp">
-                                <rect key="frame" x="-135" y="-130" width="300" height="300"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="90"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="atZ-ia-eDO">
+                                        <rect key="frame" x="279" y="52" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="25"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zo4-Ql-C3X">
+                                        <rect key="frame" x="8" y="30" width="46" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="yRT-sy-gGw"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
+                                        <state key="normal" title="◁">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="backButtonAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="llZ-dd-YFy"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cWn-EI-H2g">
+                                        <rect key="frame" x="536" y="43" width="46" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="Cf5-XP-FuS"/>
+                                        </constraints>
+                                        <state key="normal" title="Button">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="rightOptionAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="I8C-Qe-Id7"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="6YI-Gh-xT3"/>
+                                    <constraint firstAttribute="height" constant="64" id="6YI-Gh-xT3"/>
+                                    <constraint firstAttribute="bottom" secondItem="zo4-Ql-C3X" secondAttribute="bottom" id="A0E-D1-HzH"/>
+                                    <constraint firstAttribute="bottom" secondItem="cWn-EI-H2g" secondAttribute="bottom" id="KBi-Hc-NTE"/>
+                                    <constraint firstAttribute="trailing" secondItem="atZ-ia-eDO" secondAttribute="trailing" constant="50" id="OKI-te-J4g"/>
+                                    <constraint firstAttribute="trailing" secondItem="cWn-EI-H2g" secondAttribute="trailing" constant="10" id="PBB-cR-Nla"/>
+                                    <constraint firstItem="atZ-ia-eDO" firstAttribute="top" secondItem="bBT-oA-8kp" secondAttribute="top" constant="20" id="PU6-az-OWZ"/>
+                                    <constraint firstItem="zo4-Ql-C3X" firstAttribute="leading" secondItem="bBT-oA-8kp" secondAttribute="leading" constant="10" id="TPJ-bK-fuG"/>
+                                    <constraint firstItem="cWn-EI-H2g" firstAttribute="top" secondItem="bBT-oA-8kp" secondAttribute="top" constant="20" id="U9u-B3-gI8"/>
+                                    <constraint firstAttribute="bottom" secondItem="atZ-ia-eDO" secondAttribute="bottom" id="mSO-LV-1Pq"/>
+                                    <constraint firstItem="zo4-Ql-C3X" firstAttribute="top" secondItem="bBT-oA-8kp" secondAttribute="top" constant="20" id="n5A-Hj-0wI"/>
+                                    <constraint firstItem="atZ-ia-eDO" firstAttribute="leading" secondItem="bBT-oA-8kp" secondAttribute="leading" constant="50" id="zNg-7o-n6l"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="CFE-k8-4sX" secondAttribute="bottom" id="9zb-xl-HR5"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="bottom" secondItem="CFE-k8-4sX" secondAttribute="bottom" id="9zb-xl-HR5"/>
                             <constraint firstItem="bBT-oA-8kp" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Rqh-v0-SEO"/>
                             <constraint firstItem="bBT-oA-8kp" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="VjV-f1-ltL"/>
                             <constraint firstItem="CFE-k8-4sX" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="aut-rA-MEs"/>
@@ -42,8 +86,11 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="zo4-Ql-C3X" id="3bj-qq-81N"/>
+                        <outlet property="beaconDisplayTitle" destination="atZ-ia-eDO" id="2ms-eu-9dc"/>
                         <outlet property="mainWeb" destination="CFE-k8-4sX" id="A0B-MT-NkX"/>
                         <outlet property="progressView" destination="bBT-oA-8kp" id="qig-4j-B8d"/>
+                        <outlet property="rightOptionButton" destination="cWn-EI-H2g" id="75M-G2-JwN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
