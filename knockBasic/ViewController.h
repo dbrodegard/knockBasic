@@ -24,6 +24,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *rightOptionButton;
 - (IBAction)rightOptionAction:(id)sender;
+@property (weak, nonatomic) IBOutlet UIImageView *topBackImageView;
 
 
 @end

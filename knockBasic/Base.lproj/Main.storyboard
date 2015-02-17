@@ -22,23 +22,31 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
                             </webView>
-                            <view alpha="0.69999999999999996" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bBT-oA-8kp">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bBT-oA-8kp">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="90"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="atZ-ia-eDO">
+                                    <imageView userInteractionEnabled="NO" alpha="0.050000000000000003" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qdC-3C-fnF" userLabel="topBackImageView">
+                                        <rect key="frame" x="8" y="23" width="584" height="45"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="n9e-q3-8Se"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Configure" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="atZ-ia-eDO">
                                         <rect key="frame" x="279" y="52" width="42" height="21"/>
                                         <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="25"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zo4-Ql-C3X">
                                         <rect key="frame" x="8" y="30" width="46" height="30"/>
                                         <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="NHJ-Se-1yj"/>
                                             <constraint firstAttribute="width" constant="50" id="yRT-sy-gGw"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
-                                        <state key="normal" title="◁">
-                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="15"/>
+                                        <state key="normal" title="Back ">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -46,11 +54,14 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cWn-EI-H2g">
-                                        <rect key="frame" x="536" y="43" width="39" height="30"/>
+                                        <rect key="frame" x="526" y="43" width="39" height="30"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="Cf5-XP-FuS"/>
+                                            <constraint firstAttribute="height" constant="34" id="4Dt-Wl-5tI"/>
+                                            <constraint firstAttribute="width" constant="34" id="Cf5-XP-FuS"/>
                                         </constraints>
-                                        <state key="normal" title="range">
+                                        <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="15"/>
+                                        <state key="normal" title="Off">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -58,9 +69,12 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.22054811507936511" green="0.22054811507936511" blue="0.22054811507936511" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="qdC-3C-fnF" firstAttribute="leading" secondItem="bBT-oA-8kp" secondAttribute="leading" constant="10" id="0E8-FE-7LG"/>
+                                    <constraint firstItem="atZ-ia-eDO" firstAttribute="centerY" secondItem="qdC-3C-fnF" secondAttribute="centerY" id="4EY-BQ-Esm"/>
                                     <constraint firstAttribute="height" constant="64" id="6YI-Gh-xT3"/>
+                                    <constraint firstItem="atZ-ia-eDO" firstAttribute="centerY" secondItem="cWn-EI-H2g" secondAttribute="centerY" id="7TL-QZ-v1c"/>
                                     <constraint firstAttribute="bottom" secondItem="zo4-Ql-C3X" secondAttribute="bottom" id="A0E-D1-HzH"/>
                                     <constraint firstAttribute="bottom" secondItem="cWn-EI-H2g" secondAttribute="bottom" id="KBi-Hc-NTE"/>
                                     <constraint firstAttribute="trailing" secondItem="atZ-ia-eDO" secondAttribute="trailing" constant="50" id="OKI-te-J4g"/>
@@ -68,10 +82,20 @@
                                     <constraint firstItem="atZ-ia-eDO" firstAttribute="top" secondItem="bBT-oA-8kp" secondAttribute="top" constant="20" id="PU6-az-OWZ"/>
                                     <constraint firstItem="zo4-Ql-C3X" firstAttribute="leading" secondItem="bBT-oA-8kp" secondAttribute="leading" constant="10" id="TPJ-bK-fuG"/>
                                     <constraint firstItem="cWn-EI-H2g" firstAttribute="top" secondItem="bBT-oA-8kp" secondAttribute="top" constant="20" id="U9u-B3-gI8"/>
+                                    <constraint firstAttribute="trailing" secondItem="qdC-3C-fnF" secondAttribute="trailing" constant="10" id="eWA-Qp-g1R"/>
                                     <constraint firstAttribute="bottom" secondItem="atZ-ia-eDO" secondAttribute="bottom" id="mSO-LV-1Pq"/>
                                     <constraint firstItem="zo4-Ql-C3X" firstAttribute="top" secondItem="bBT-oA-8kp" secondAttribute="top" constant="20" id="n5A-Hj-0wI"/>
+                                    <constraint firstItem="zo4-Ql-C3X" firstAttribute="centerY" secondItem="atZ-ia-eDO" secondAttribute="centerY" id="qjO-Hq-c3v"/>
                                     <constraint firstItem="atZ-ia-eDO" firstAttribute="leading" secondItem="bBT-oA-8kp" secondAttribute="leading" constant="50" id="zNg-7o-n6l"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="A0E-D1-HzH"/>
+                                        <exclude reference="n5A-Hj-0wI"/>
+                                        <exclude reference="KBi-Hc-NTE"/>
+                                        <exclude reference="U9u-B3-gI8"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -91,6 +115,7 @@
                         <outlet property="mainWeb" destination="CFE-k8-4sX" id="A0B-MT-NkX"/>
                         <outlet property="progressView" destination="bBT-oA-8kp" id="qig-4j-B8d"/>
                         <outlet property="rightOptionButton" destination="cWn-EI-H2g" id="75M-G2-JwN"/>
+                        <outlet property="topBackImageView" destination="qdC-3C-fnF" id="kj4-QZ-7y0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

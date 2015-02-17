@@ -15,6 +15,9 @@ NSMutableArray *theBeaconsAround;
 // toggles ranging
 BOOL ranging;
 
+// tracks how long a beacon has been ranged
+int countOut;
+
 @interface ViewController ()
 
 
@@ -38,6 +41,9 @@ BOOL ranging;
     
     ranging = NO;
     
+    // sets the count out timer to 20
+    countOut = 20;
+    
     
     
     // start monitoring for the beacons
@@ -49,11 +55,11 @@ BOOL ranging;
                                                              identifier:@"beacon"];
     
     
-    [self.locationManager startMonitoringForRegion:self.beaconRegion];
+    //[self.locationManager startMonitoringForRegion:self.beaconRegion];
     
     
     
-    
+    // request authorization or location monitor
     if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) { // iOS8+
         // Sending a message to avoid compile time error
         [[UIApplication sharedApplication] sendAction:@selector(requestAlwaysAuthorization)
@@ -62,34 +68,38 @@ BOOL ranging;
                                              forEvent:nil];
     }
     
-    
-    ///end start monitoring
-    
-    
+    // webview setup
     
     self.mainWeb.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     
     [self.mainWeb.scrollView setDelegate:self];
-    NSString *urlString = @"http://cnn.com";
     
-    //2
-    NSURL *url = [NSURL URLWithString:urlString];
     
-    //3
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    //design ranging toggle
     
-    //4
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    self.rightOptionButton.layer.borderColor = [UIColor whiteColor].CGColor;
     
-    //5
-    //[NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-    // {
-    //     if ([data length] > 0 && error == nil) [self.mainWeb loadRequest:request];
-    //     else if (error != nil) NSLog(@"Error: %@", error);
-    // }];
+    self.rightOptionButton.layer.borderWidth = 3;
     
+    self.rightOptionButton.layer.cornerRadius = 17;
+    
+    self.rightOptionButton.clipsToBounds = YES;
+    
+    self.topBackImageView.layer.cornerRadius = 17;
+    
+    self.topBackImageView.clipsToBounds = YES;
+    
+    
+    self.mainWeb.scrollView.alwaysBounceHorizontal = NO;
+    
+    
+    
+    // TURN ON RANGING FOR 20 SECONDS EACH TIME THE APP WAKES   
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(turnOnBeaconRanging) name:UIApplicationDidBecomeActiveNotification object:nil];
+
     
 }
+
 
 
 
@@ -105,22 +115,21 @@ BOOL ranging;
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    self.progressView.backgroundColor = [UIColor lightGrayColor];
-    
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
-    self.progressView.backgroundColor = [UIColor whiteColor];
+   
+    
+
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    self.progressView.backgroundColor = [UIColor whiteColor];
+
 }
 
 
@@ -146,49 +155,88 @@ BOOL ranging;
     
     
     
-    /// this will be called multiple times while in rang eof the beacon
-    
-    // Beacon found!
-    //self.statusLabel.text = @"Beacon found!";
-    
+    /// this will be called multiple times while in range of the beacon
+
    // NSLog(@"this is a beacon");
     
     CLBeacon *foundBeacon = [beacons firstObject];
-    
-    //check if its null
+
     
     // beacons array is the array of beacons ordered by closest.
     
-    // You can retrieve the beacon data from its properties
+    // retrieve beacon data from properties
+    
     NSString *uuid = foundBeacon.proximityUUID.UUIDString;
     NSString *major = [NSString stringWithFormat:@"%@", foundBeacon.major];
     NSString *minor = [NSString stringWithFormat:@"%@", foundBeacon.minor];
     
     
     if (foundBeacon.major ==nil) {
-       // NSLog(@"you are not listening to a beacon!!!!");
+       NSLog(@"you are not in range of any beacons, will range for 20 seconds");
         
-    }
-    else{
-       // NSLog(@"the closest beacon is %@,%@",foundBeacon.major, foundBeacon.minor);
-        
-      //  NSLog(@"the size of the array is %lu", (unsigned long)beacons.count);
-        
-        
-        if (currentBeacon.major==foundBeacon.major&&currentBeacon.minor==currentBeacon.minor) {
-           // NSLog(@"same beacon");
+        if (countOut>0) {
+            countOut = countOut-1;
         }
         else{
             
-            NSLog(@"new beacon, go get the data or display something?");
+            // turn off beacon ranging because you are not listening to any beacon
             
-            currentBeacon = [[CLBeacon alloc]init];
+            [self turnOffBeaconRanging];
+        }
+        
+    }
+    else{
+        
+        if (currentBeacon.major==foundBeacon.major&&currentBeacon.minor==currentBeacon.minor) {
+            NSLog(@"same beacon");
             
-            currentBeacon = foundBeacon;
+            if (countOut>0) {
+                countOut = countOut-1;
+            }
+            else{
+                
+                // turn off beacon ranging because you are just listening to the same beacon
+                
+                [self turnOffBeaconRanging];
+            }
             
-            [self getData:currentBeacon];
+        }
+        else{
             
-            //[self makeArray:beacons];
+            
+            // make sure the user is within immediate vicinity
+            
+            if (CLProximityImmediate == foundBeacon.proximity) {
+                
+                // light up the right button to identify found beacon
+                
+                self.rightOptionButton.backgroundColor = [UIColor greenColor];
+                
+                
+                NSLog(@"new beacon, go get the data");
+                
+                // set current beacon to the newly discovered beacon to prevent multiple data calls
+                
+                currentBeacon = [[CLBeacon alloc]init];
+                
+                currentBeacon = foundBeacon;
+                
+                [self getData:currentBeacon];
+                
+                // reset the count down to turn off the beacon ranging
+                countOut = 20;
+                
+                
+                
+            } else {
+                // do nothing
+            }
+            
+            
+            
+            
+            
+            
         }
     }
     
@@ -201,63 +249,10 @@ BOOL ranging;
 // send a data request when you have found a new beacon
 
 
--(void)makeArray:(NSArray*)beacons{
-    
-    
-    NSLog(@"the beacons when sent  around contains: %lu", (unsigned long)beacons.count);
-    
-    // get the data on the beacons
-    
-    NSMutableArray *queries = [[NSMutableArray alloc]init];
-    
-    
-    for (int i =0; i<beacons.count; i++) {
-        CLBeacon *theBeac = [beacons objectAtIndex:i];
-        
-        NSString *major = [NSString stringWithFormat:@"%@", theBeac];
-        NSString *minor = [NSString stringWithFormat:@"%@", theBeac];
-        
-        
-        PFQuery *query = [PFQuery queryWithClassName:@"beacon"];
-        
-        
-        
-        [query whereKey:@"major" equalTo:major];
-        [query whereKey:@"minor" equalTo:minor];
-        
-        [queries addObject:query];
-        
-    }
-    
-   
-    NSArray*arrayForQuery = [[NSArray alloc]initWithArray:queries];
-    
-    NSLog(@"the array for queries: %lu", (unsigned long)arrayForQuery.count);
-    
-    
-    PFQuery *mainQuery = [PFQuery orQueryWithSubqueries:arrayForQuery];
-    
-    [mainQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            
-            // the things to display
-            
-            theBeaconsAround = [[NSMutableArray alloc]initWithArray:objects];
-            NSLog(@"the beacons around contains: %lu", (unsigned long)objects.count);
-            
-            NSLog(@"it was successful");
-            
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];}
-
-
 -(void)getData:(CLBeacon *)theBeacon{
     
     
-    //NSLog(@"it is a new beacon so go get the data");
+    NSLog(@"going to get data for new beacon");
     
     NSString *major = [NSString stringWithFormat:@"%@", theBeacon.major];
     NSString *minor = [NSString stringWithFormat:@"%@", theBeacon.minor];
@@ -284,7 +279,9 @@ BOOL ranging;
             
             self.beaconDisplayTitle.text = displayName;
             
-           
+            // remove the right button display color
+            
+           self.rightOptionButton.backgroundColor = [UIColor clearColor];
             
             [self goTo:command];
             
@@ -293,6 +290,9 @@ BOOL ranging;
         }
         else {
         
+            // remove the right button display color
+            
+            self.rightOptionButton.backgroundColor = [UIColor clearColor];
         
         
         }
@@ -347,6 +347,12 @@ BOOL ranging;
 
 
 - (IBAction)backButtonAction:(id)sender {
+    
+    NSLog(@"back button");
+    
+    if (self.mainWeb.canGoBack) {
+        [self.mainWeb goBack];
+    }
 }
 - (IBAction)rightOptionAction:(id)sender {
     
@@ -354,19 +360,49 @@ BOOL ranging;
     
     
     if (ranging) {
-        [self.locationManager stopMonitoringForRegion:self.beaconRegion];
         
-        ranging = NO;
+        [self turnOffBeaconRanging];
         
-        [self.rightOptionButton setTitle:@"Off" forState:UIControlStateNormal];
     }
     else{
         
-        [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
-        
-        ranging = YES;
-        
-        [self.rightOptionButton setTitle:@"On" forState:UIControlStateNormal];
+        [self turnOnBeaconRanging];
     }
+    
+    
 }
+
+-(void)turnOffBeaconRanging{
+    
+    [self.locationManager stopRangingBeaconsInRegion:self.beaconRegion];
+    
+    ranging = NO;
+    
+    [self.rightOptionButton setTitle:@"Off" forState:UIControlStateNormal];
+    
+    self.rightOptionButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    
+    self.rightOptionButton.backgroundColor = [UIColor clearColor];
+    
+    [self.rightOptionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    countOut = 20;
+    
+    
+}
+
+-(void)turnOnBeaconRanging{
+    [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
+    
+    ranging = YES;
+    
+    [self.rightOptionButton setTitle:@"On" forState:UIControlStateNormal];
+    
+    self.rightOptionButton.layer.borderColor = [UIColor greenColor].CGColor;
+    
+    self.rightOptionButton.backgroundColor = [UIColor clearColor];
+    
+    [self.rightOptionButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+}
+
 @end
