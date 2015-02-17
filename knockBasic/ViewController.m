@@ -12,6 +12,9 @@ CLBeacon *currentBeacon;
 
 NSMutableArray *theBeaconsAround;
 
+// toggles ranging
+BOOL ranging;
+
 @interface ViewController ()
 
 
@@ -33,6 +36,7 @@ NSMutableArray *theBeaconsAround;
     self.locationManager.delegate = self;
     // end set delagates
     
+    ranging = NO;
     
     
     
@@ -40,14 +44,14 @@ NSMutableArray *theBeaconsAround;
     
     NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:@"A64A513A-96DF-4117-AFE4-6835A1D1285E"];
     
-    // Setup a new region with that UUID and same identifier as the broadcasting beacon
+   
     self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid
-                                                             identifier:@"com.appcoda.testregion"];
+                                                             identifier:@"beacon"];
     
-    // Tell location manager to start monitoring for the beacon region
+    
     [self.locationManager startMonitoringForRegion:self.beaconRegion];
     
-    [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
+    
     
     
     if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) { // iOS8+
@@ -345,5 +349,24 @@ NSMutableArray *theBeaconsAround;
 - (IBAction)backButtonAction:(id)sender {
 }
 - (IBAction)rightOptionAction:(id)sender {
+    
+    
+    
+    
+    if (ranging) {
+        [self.locationManager stopMonitoringForRegion:self.beaconRegion];
+        
+        ranging = NO;
+        
+        [self.rightOptionButton setTitle:@"Off" forState:UIControlStateNormal];
+    }
+    else{
+        
+        [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
+        
+        ranging = YES;
+        
+        [self.rightOptionButton setTitle:@"On" forState:UIControlStateNormal];
+    }
 }
 @end
